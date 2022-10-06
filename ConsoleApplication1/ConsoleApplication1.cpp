@@ -6,7 +6,7 @@ using namespace std;
 
 char desk[10][10];
 char desk_copy[10][10];
-int cube[8][2]
+int cube[9][2]
 {
 	{-1,0},
 	{-1,-1},
@@ -15,12 +15,12 @@ int cube[8][2]
 	{1,0},
 	{1,1},
 	{0,1},
-	{1,-1}
+	{-1,1},
 };
 struct Ship
 {
-	char empty = static_cast<char>(250);
-	char filled = static_cast<char>(245);
+	char empty = ' ';
+	char filled = '*';
 	char damaged = 'X';
 	char exists = '+';
 	int size;
@@ -53,7 +53,7 @@ struct Ship
 			{
 				for (int k = 0; k < 8; k++)
 				{
-					if (desk[x + cube[k][1]][y + cube[k][0]] == filled)
+					if (desk[x + cube[k][0]][y + cube[k][1]] == filled)
 						return false;
 				}
 
@@ -62,12 +62,13 @@ struct Ship
 			else
 				return false;
 		}
+		maky_copy(desk, desk_copy);
 		return true;
 	}
 	void create(int _size) 
 	{
 		while (!try_create(_size));
-		maky_copy(desk, desk_copy);
+		
 	}
 	int random_func()
 	{
@@ -118,4 +119,5 @@ int main()
 	player1.create_ship(i);
 	player1.print();
 	cout << "\n" << player1.count_of_ships << "\n";
+
 }
