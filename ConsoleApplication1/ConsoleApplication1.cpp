@@ -6,7 +6,7 @@ using namespace std;
 
 char desk[10][10];
 char desk_copy[10][10];
-int cube[9][2]
+int cube[8][2]
 {
 	{-1,0},
 	{-1,-1},
@@ -41,26 +41,38 @@ struct Ship
 			for (int j = 0; j < 10; j++)
 				dest[i][j] = source[i][j];
 	}
+	void clear_desk(char dest[][10]) 
+	{
+		for (int i = 0; i < 10; i++)
+			for (int j = 0; j < 10; j++)
+				dest[i][j] = empty;
+	}
 	bool try_create(int _size)
 	{
 		size = _size;
 		int x = random_func();
 		int y = random_func();
+		clear_desk(desk_copy);
 		maky_copy(desk_copy, desk);
+		bool status = true;
 		for (int i = 0; i < size; i++)
 		{
-			if (desk[x][y + i] == empty || y + size < 10)
-			{
+			if (desk[x][y + i] == filled || y + size > 10)
+				return false;
 				for (int k = 0; k < 8; k++)
 				{
-					if (desk[x + cube[k][0]][y + cube[k][1]] == filled)
+					if (desk[x + cube[k][0]][y + i + cube[k][1]] == filled) 
+					{
+						status = false;
 						return false;
+					}
+
 				}
 
+				if(status)
 				desk_copy[x][y + i] = filled;
-			}
-			else
-				return false;
+			
+			
 		}
 		maky_copy(desk, desk_copy);
 		return true;
