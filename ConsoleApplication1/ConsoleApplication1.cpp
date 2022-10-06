@@ -121,7 +121,7 @@ struct Game
 			for (int j = 0; j < 10; j++)
 			{
 				if(desk[i][j]=='*')
-					SetColor(14, 0);
+					SetColor(13, 0);
 				else
 					SetColor(15, 0);
 
