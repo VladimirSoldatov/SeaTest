@@ -1,9 +1,14 @@
 ﻿#include <iostream>
 #include<set>
 #include<algorithm>
-
+#include <Windows.h>
 using namespace std;
 
+
+void SetColor(int text, int bg) {
+	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hStdOut, (WORD)((bg << 4) | text));
+}
 char desk[10][10];
 char desk_copy[10][10];
 int cube[8][2]
@@ -115,6 +120,11 @@ struct Game
 		{
 			for (int j = 0; j < 10; j++)
 			{
+				if(desk[i][j]=='*')
+					SetColor(14, 0);
+				else
+					SetColor(15, 0);
+
 				cout << desk[i][j] << "   ";
 			}
 			cout << "\n\n";
