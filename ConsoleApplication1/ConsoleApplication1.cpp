@@ -181,7 +181,7 @@ struct Game
 
 int main()
 {
-	Set_Font_Special(L"Lusida Console",20);
+	Set_Font_Special(L"Lusida Console",14);
 	srand((int)time(NULL));
 	Game player1;
 	for (int i = 4; i>0;i--)
