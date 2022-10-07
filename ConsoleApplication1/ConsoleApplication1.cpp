@@ -11,19 +11,13 @@ BlueDark,BlueGrey2,GreenGrey,BlueGrey,RedBlack,VioletLite,BrownLite,GreyLite,Gre
 void Set_Font_Special(const wchar_t* text, int size)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
 	CONSOLE_FONT_INFOEX fontInfo;
-
 	// эта строка нужна
 	fontInfo.cbSize = sizeof(fontInfo);
-
 	GetCurrentConsoleFontEx(hConsole, TRUE, &fontInfo);
-
 	// это неправильное использование функции
 	//wcsncpy(L"Lucida Console", fontInfo.FaceName, LF_FACESIZE);
-
 	wcscpy_s(fontInfo.FaceName, text);
-
 	fontInfo.dwFontSize.Y = size;
 	fontInfo.dwFontSize.X = size;
 	SetCurrentConsoleFontEx(hConsole, TRUE, &fontInfo);
@@ -82,25 +76,21 @@ struct Ship
 		int y = random_func();
 		clear_desk(desk_copy);
 		maky_copy(desk_copy, desk);
-		bool status = true;
+
 		for (int i = 0; i < size; i++)
 		{
 			if (desk[x][y + i] == filled || y + size > 10)
 				return false;
-				for (int k = 0; k < 8; k++)
+			for (int k = 0; k < 8; k++)
+			{
+				if (desk[x + cube[k][0]][y + i + cube[k][1]] == filled) 
 				{
-					if (desk[x + cube[k][0]][y + i + cube[k][1]] == filled) 
-					{
-						status = false;
-						return false;
-					}
-
+					return false;
 				}
 
-				if(status)
-				desk_copy[x][y + i] = filled;
-			
-			
+			}
+		desk_copy[x][y + i] = filled;
+	
 		}
 		maky_copy(desk, desk_copy);
 		return true;
@@ -108,22 +98,18 @@ struct Ship
 	void create(int _size) 
 	{
 		while (!try_create(_size));
-		
 	}
 	int random_func()
 	{
 		int result;
 		result = rand() % 10;
-
 		return result;
 	}
 };
 
 struct Game
 {
-	
 	int count_of_ships = 0;
-
 	Game()
 	{
 		for (int i = 0; i < 10; i++)
@@ -147,11 +133,9 @@ struct Game
 			cout << "\t"<<i;
 			for (int j = 0; j < 10; j++)
 			{
-				
 				if (desk[i][j] == static_cast<char>(176))
 				{
-					space = static_cast<char>(176);
-					
+					space = static_cast<char>(176);		
 					SetColor(Green , 0);
 				}
 				else if (desk[i][j] == 'X')
@@ -164,18 +148,13 @@ struct Game
 				
 					SetColor(White, 0);
 				}
-
-					cout << desk[i][j]<<space;
-					
-			
+				cout << desk[i][j]<<space;
 			}
 			SetColor(White, 0);
 			cout << i;
 			cout << "\n";
-
 		}
 		cout << "\t 0 1 2 3 4 5 6 7 8 9\n";
-	
 	}
 };
 
@@ -188,7 +167,5 @@ int main()
 	player1.create_ship(i);
 	player1.print();
 	SetColor(15, 0);
-	//cout << "\n" << player1.count_of_ships << "\n";
-
-
+	return 0;
 }
