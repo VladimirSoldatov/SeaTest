@@ -4,6 +4,10 @@
 #include <Windows.h>
 using namespace std;
 
+enum colors 
+{
+BlueDark,BlueGrey2,GreenGrey,BlueGrey,RedBlack,VioletLite,BrownLite,GreyLite,Grey,Blue,Green,GreenLite,Brown,Violet,Salat,White
+};
 void Set_Font_Special(const wchar_t* text, int size)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -137,22 +141,29 @@ struct Game
 	void print() 
 	{
 		char space;
-
+		cout << "\n\t 0 1 2 3 4 5 6 7 8 9\n";
 		for (int i = 0; i < 10; i++) 
 		{
+			SetColor(White, 0);
+			cout << "\t"<<i;
 			for (int j = 0; j < 10; j++)
 			{
+				
 				if (desk[i][j] == static_cast<char>(176))
 				{
 					space = static_cast<char>(176);
 					
-					SetColor(13, 0);
+					SetColor(Green , 0);
 				}
-				else 
+				else if (desk[i][j] == 'X')
+				{
+					space = 'X';
+				}
+				else
 				{
 					space = static_cast<char>(178);
 				
-					SetColor(15, 0);
+					SetColor(White, 0);
 				}
 
 					cout << desk[i][j]<<space;
@@ -174,10 +185,7 @@ int main()
 	player1.create_ship(i);
 	player1.print();
 	SetColor(15, 0);
-	cout << "\n" << player1.count_of_ships << "\n";
-	for (int i = 176; i < 230; i++)
-	{
-		cout << static_cast<char>(i) << " ";
-	}
+	//cout << "\n" << player1.count_of_ships << "\n";
+
 
 }
