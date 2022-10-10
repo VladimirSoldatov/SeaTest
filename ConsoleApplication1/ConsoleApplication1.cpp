@@ -162,7 +162,11 @@ struct Game
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++)
 				desk[i][j] = static_cast<char>(178);
+		for (int i = 4; i > 0; i--)
+			create_ship(i);
+		print();
 	}
+
 	void create_ship(int _type)
 	{
 		for (int i = 5 - _type; i > 0; i--)
@@ -212,9 +216,8 @@ int main()
 	Set_Font_Special(L"Cascadia Mono",16);
 	srand((int)time(NULL));
 	Game player1;
-	for (int i = 4; i>0;i--)
-	player1.create_ship(i);
-	player1.print();
+
+
 	SetColor(15, 0);
 	return 0;
 }
