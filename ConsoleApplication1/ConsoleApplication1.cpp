@@ -156,16 +156,10 @@ struct Ship
 
 struct Game
 {
+	
+	static int commonPlayerID;
+	int ownPlayerID;
 	int count_of_ships = 0;
-	Game()
-	{
-		for (int i = 0; i < 10; i++)
-			for (int j = 0; j < 10; j++)
-				desk[i][j] = static_cast<char>(178);
-		for (int i = 4; i > 0; i--)
-			create_ship(i);
-		print();
-	}
 
 	void create_ship(int _type)
 	{
@@ -175,21 +169,36 @@ struct Game
 			count_of_ships++;
 		}
 	}
-	void print() 
+	static void setPlayerID() 
+	{
+		commonPlayerID++;
+	}
+	Game()
+	{
+		for (int i = 0; i < 10; i++)
+			for (int j = 0; j < 10; j++)
+				desk[i][j] = static_cast<char>(178);
+		for (int i = 4; i > 0; i--)
+			create_ship(i);
+		print();
+		setPlayerID();
+		ownPlayerID = commonPlayerID;
+	}
+	void print()
 	{
 		char space;
 		cout << "\n\t";
-		
+
 		cout << " 0 1 2 3 4 5 6 7 8 9\n";
-		for (int i = 0; i < 10; i++) 
+		for (int i = 0; i < 10; i++)
 		{
-			cout << "\t"<<i;
+			cout << "\t" << i;
 			for (int j = 0; j < 10; j++)
 			{
 				if (desk[i][j] == static_cast<char>(176))
 				{
-					space = static_cast<char>(176);		
-					SetColor(Green , 0);
+					space = static_cast<char>(176);
+					SetColor(Green, 0);
 				}
 				else if (desk[i][j] == 'X')
 				{
@@ -198,10 +207,10 @@ struct Game
 				else
 				{
 					space = static_cast<char>(178);
-				
+
 					SetColor(White, 0);
 				}
-				cout << desk[i][j]<<space;
+				cout << desk[i][j] << space;
 			}
 			SetColor(White, 0);
 			cout << i;
@@ -210,14 +219,16 @@ struct Game
 		cout << "\t  0 1 2 3 4 5 6 7 8 9\n";
 	}
 };
-
+int Game::commonPlayerID = 0;
 int main()
 {
 	Set_Font_Special(L"Cascadia Mono",16);
 	srand((int)time(NULL));
 	Game player1;
+	Game player2;
+	cout <<player1.ownPlayerID<<"\n";
+	cout << player2.ownPlayerID << "\n";
 
 
-	SetColor(15, 0);
 	return 0;
 }
