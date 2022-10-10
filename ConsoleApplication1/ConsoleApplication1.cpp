@@ -76,20 +76,67 @@ struct Ship
 		int y = random_func();
 		clear_desk(desk_copy);
 		maky_copy(desk_copy, desk);
-
+		int switch_on = rand() % 4;
 		for (int i = 0; i < size; i++)
 		{
-			if (desk[x][y + i] == filled || y + size > 10)
-				return false;
-			for (int k = 0; k < 8; k++)
+			switch (switch_on)
 			{
-				if (desk[x + cube[k][0]][y + i + cube[k][1]] == filled) 
-				{
-					return false;
-				}
+				
+			case 0:
+					if (desk[x][y + i] == filled || y + size > 10)
+						return false;
+					for (int k = 0; k < 8; k++)
+					{
+						if (desk[x + cube[k][0]][y + i + cube[k][1]] == filled)
+						{
+							return false;
+						}
 
+					}
+					desk_copy[x][y + i] = filled;
+					break;
+			case 1:
+				if (desk[x][y - i] == filled || y - size < 0)
+					return false;
+				for (int k = 0; k < 8; k++)
+				{
+					if (desk[x + cube[k][0]][y - i + cube[k][1]] == filled)
+					{
+						return false;
+					}
+
+				}
+				desk_copy[x][y - i] = filled;
+				break;
+			case 2:
+				if (desk[x + i][y] == filled || x + size > 10)
+					return false;
+				for (int k = 0; k < 8; k++)
+				{
+					if (desk[x + i + cube[k][0]][y + cube[k][1]] == filled)
+					{
+						return false;
+					}
+
+				}
+				desk_copy[x + i][y] = filled;
+				break;
+			case 3:
+				if (desk[x - i][y] == filled || x - size < 0)
+					return false;
+				for (int k = 0; k < 8; k++)
+				{
+					if (desk[x -i - cube[k][0]][y + cube[k][1]] == filled)
+					{
+						return false;
+					}
+
+				}
+				desk_copy[x - i][y] = filled;
+				break;
+			default:
+				break;
 			}
-		desk_copy[x][y + i] = filled;
 	
 		}
 		maky_copy(desk, desk_copy);
@@ -127,7 +174,9 @@ struct Game
 	void print() 
 	{
 		char space;
-		cout << "\n\t 0 1 2 3 4 5 6 7 8 9\n";
+		cout << "\n\t";
+		
+		cout << " 0 1 2 3 4 5 6 7 8 9\n";
 		for (int i = 0; i < 10; i++) 
 		{
 			cout << "\t"<<i;
@@ -154,13 +203,13 @@ struct Game
 			cout << i;
 			cout << "\n";
 		}
-		cout << "\t 0 1 2 3 4 5 6 7 8 9\n";
+		cout << "\t  0 1 2 3 4 5 6 7 8 9\n";
 	}
 };
 
 int main()
 {
-	Set_Font_Special(L"Lusida Console",14);
+	Set_Font_Special(L"Cascadia Mono",16);
 	srand((int)time(NULL));
 	Game player1;
 	for (int i = 4; i>0;i--)
