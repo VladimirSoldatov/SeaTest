@@ -55,7 +55,6 @@ struct Ship
 	{
 		type = _type;
 		create(type);
-
 	}
 	void maky_copy(char dest[][10], char source[][10]) 
 	{
@@ -81,7 +80,7 @@ struct Ship
 		{
 			switch (switch_on)
 			{
-				
+	
 			case 0:
 					if (desk[x][y + i] == filled || y + size > 10)
 						return false;
@@ -91,7 +90,6 @@ struct Ship
 						{
 							return false;
 						}
-
 					}
 					desk_copy[x][y + i] = filled;
 					break;
@@ -104,7 +102,6 @@ struct Ship
 					{
 						return false;
 					}
-
 				}
 				desk_copy[x][y - i] = filled;
 				break;
@@ -117,7 +114,6 @@ struct Ship
 					{
 						return false;
 					}
-
 				}
 				desk_copy[x + i][y] = filled;
 				break;
@@ -130,14 +126,12 @@ struct Ship
 					{
 						return false;
 					}
-
 				}
 				desk_copy[x - i][y] = filled;
 				break;
 			default:
 				break;
 			}
-	
 		}
 		maky_copy(desk, desk_copy);
 		return true;
