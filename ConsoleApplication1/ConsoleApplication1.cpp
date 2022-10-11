@@ -130,6 +130,7 @@ struct Ship
 				desk_copy[x - i][y] = filled;
 				break;
 			default:
+				return false;
 				break;
 			}
 		}
