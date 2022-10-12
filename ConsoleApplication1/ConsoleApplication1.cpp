@@ -1,7 +1,6 @@
-﻿#include <iostream>
-#include<set>
-#include<algorithm>
-#include <Windows.h>
+﻿#include <iostream> // ввод-вывод
+#include<algorithm> // функции для консоли
+#include <Windows.h> // функции шрифта и цвета текста
 using namespace std;
 
 enum colors //Перечисление цветов для SetColor
@@ -42,8 +41,8 @@ int cube[8][2] // Куб проверки свободности клеток в
 };
 struct Ship //Струкутура корабля
 {
-	char  (*ship_map)[10];
-	char ship_map_copy[10][10];
+	char  (*ship_map)[10];// указатель на поле игрока для корабля
+	char ship_map_copy[10][10];// копия поля корабля при попытке создании
 	char empty = static_cast<char>(178); // Значение символа свободной ячейки
 	char filled = static_cast<char>(176);// Значение символа занятой ячейки
 	char damaged = 'X';// Значение символа убитой ячейки
@@ -54,38 +53,38 @@ struct Ship //Струкутура корабля
 	int damage;// Количество поврежденных палуб
 	bool status;// Статус корабля (жив/мертв)
 	int orientation;//Положение корабля относительно координат
-	Ship(int _type, char temp_map[][10])
+	Ship(int _type, char temp_map[][10])//Конструктор
 	{
-		ship_map = temp_map;
+		ship_map = temp_map;//Перенос карты игрока в объект корабля
 		type = _type;
 		create(type);
 	}
-	void maky_copy(char dest[][10], char source[][10]) 
+	void maky_copy(char dest[][10], char source[][10]) //функция копирования поля 
 	{
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++)
 				dest[i][j] = source[i][j];
 	}
-	void clear_desk(char dest[][10]) 
+	void clear_desk(char dest[][10]) //очистка поля
 	{
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++)
 				dest[i][j] = empty;
 	}
-	bool try_create(int _size)
+	bool try_create(int _size)//функция попытки создания корабля
 	{
 		size = _size;
 		int x = random_func();
 		int y = random_func();
 		clear_desk(ship_map_copy);
 		maky_copy(ship_map_copy, ship_map);
-		int switch_on = rand() % 4;
-		for (int i = 0; i < size; i++)
+		orientation = rand() % 4;//выбор напрпавления корабля
+		for (int i = 0; i < size; i++)//проверка на свободное место перед созданием корабля
 		{
-			switch (switch_on)
+			switch (orientation)
 			{
 
-			case 0:
+			case 0://Слева направо
 				if (ship_map[x][y + i] == filled || y + size > 10)
 					return false;
 				for (int k = 0; k < 8; k++)
@@ -97,7 +96,7 @@ struct Ship //Струкутура корабля
 				}
 				ship_map_copy[x][y + i] = filled;
 				break;
-			case 1:
+			case 1://справа налево
 				if (ship_map[x][y - i] == filled || y - size < 0)
 					return false;
 				for (int k = 0; k < 8; k++)
@@ -109,7 +108,7 @@ struct Ship //Струкутура корабля
 				}
 				ship_map_copy[x][y - i] = filled;
 				break;
-			case 2:
+			case 2://снизу вверх
 				if (ship_map[x + i][y] == filled || x + size > 10)
 					return false;
 				for (int k = 0; k < 8; k++)
@@ -121,7 +120,7 @@ struct Ship //Струкутура корабля
 				}
 				ship_map_copy[x + i][y] = filled;
 				break;
-			case 3:
+			case 3://сверху вниз
 				if (ship_map[x - i][y] == filled || x - size < 0)
 					return false;
 				for (int k = 0; k < 8; k++)
@@ -138,14 +137,14 @@ struct Ship //Струкутура корабля
 				break;
 			}
 		}
-		maky_copy(ship_map, ship_map_copy);
+		maky_copy(ship_map, ship_map_copy);//копирование из копии в продуктив
 		return true;
 	}
-	void create(int _size) 
+	void create(int _size) //функция создлания корабля
 	{
 		while (!try_create(_size));
 	}
-	int random_func()
+	int random_func()//Функция рандома от 0 до 9
 	{
 		int result;
 		result = rand() % 10;
@@ -153,16 +152,16 @@ struct Ship //Струкутура корабля
 	}
 };
 
-struct Player
+struct Player //Структура игрока
 {
 
-	static int commonPlayerID;
-	int ownPlayerID;
-	int count_of_ships = 0;
-	char desk[10][10];//Основна доска
+	static int commonPlayerID;//статическая переменная количества игроков
+	int ownPlayerID;//ID игрока
+	int count_of_ships = 0;//Количество кораблей
+	char desk[10][10];//Основная доска
 	char desk_copy[10][10];   //Вспомогательная доска
 
-	void create_ship(int _type)
+	void create_ship(int _type)//Фунция создания кораблей
 	{
 		for (int i = 5 - _type; i > 0; i--)
 		{
@@ -170,11 +169,11 @@ struct Player
 			count_of_ships++;
 		}
 	}
-	static void setPlayerID()
+	static void setPlayerID()//Функция увеличения ID при создании игрока
 	{
 		commonPlayerID++;
 	}
-	Player()
+	Player()//Конструктор Игрока
 	{
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++)
@@ -182,10 +181,10 @@ struct Player
 		for (int i = 4; i > 0; i--)
 			create_ship(i);
 		print();
-		setPlayerID();
-		ownPlayerID = commonPlayerID;
+		setPlayerID();//Увеличение ID
+		ownPlayerID = commonPlayerID;// Присвоение ID
 	}
-	void print()
+	void print()//Вывод поля игрока
 	{
 		char space;
 		cout << "\n\t";
@@ -194,7 +193,7 @@ struct Player
 		for (int i = 0; i < 10; i++)
 		{
 			cout << "\t" << i;
-			for (int j = 0; j < 10; j++)
+			for (int j = 0; j < 10; j++)//Удвоение ячейки для гармонизации игрового поля
 			{
 				if (desk[i][j] == static_cast<char>(176))
 				{
@@ -222,18 +221,18 @@ struct Player
 };
 int Player::commonPlayerID = 0;
 
-struct Game
+struct Game//Структура игры
 {
-	Player* player_1;
-	Player* player_2;
-	Game()
+	Player* player_1;//Игрок 1
+	Player* player_2;//Игрок 2
+	Game()//Конструтор
 	{
-		Set_Font_Special(L"Cascadia Mono", 16);
-		srand((int)time(NULL));
-		player_1 = new Player();
-		player_2 = new Player();
+		Set_Font_Special(L"Cascadia Mono", 16);//Выбор шрифта
+		srand((int)time(NULL));//Инициализация рандома
+		player_1 = new Player();// Созддание указателя на игрока
+		player_2 = new Player();// Создание укащателя на игрока
 	}
-	void PrintID()
+	void PrintID()// Вывод ID игроков
 	{
 
 		cout << player_1->ownPlayerID << "\n";
@@ -243,8 +242,8 @@ struct Game
 };
 int main()
 {
-	Game myGame;
-	myGame.PrintID();
+	Game myGame;//Создание игры
+	myGame.PrintID();//Вывод ID игроков
 
 
 
