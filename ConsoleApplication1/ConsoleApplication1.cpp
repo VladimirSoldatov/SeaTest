@@ -27,8 +27,8 @@ void SetColor(int text, int bg) //Функция установления цве
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdOut, (WORD)((bg << 4) | text));
 }
-char desk[10][10];//Основна доска
-char desk_copy[10][10];   //Вспомогательная доска
+//char desk[10][10];//Основна доска
+//char desk_copy[10][10];   //Вспомогательная доска
 int cube[8][2] // Куб проверки свободности клеток возле ячейки корабля
 {
 	{-1,0},
@@ -77,7 +77,7 @@ struct Ship //Струкутура корабля
 		size = _size;
 		int x = random_func();
 		int y = random_func();
-		clear_desk(desk_copy);
+		clear_desk(ship_map_copy);
 		maky_copy(ship_map_copy, ship_map);
 		int switch_on = rand() % 4;
 		for (int i = 0; i < size; i++)
